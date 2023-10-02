@@ -1,6 +1,48 @@
-import { FunnelIcon } from "@heroicons/react/24/outline";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import {
+  ChevronRightIcon,
+  FunnelIcon,
+  FolderIcon,
+  ClipboardDocumentIcon,
+} from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/solid";
+import React, { useState } from "react";
+
+const folderStructure = [
+  {
+    name: "Stage 1",
+    type: "folder",
+    children: [
+      {
+        name: "Stage 1.1",
+        type: "folder",
+        children: [
+          {
+            name: "Stage 1.1 Doc",
+            type: "file",
+          },
+        ],
+      },
+      {
+        name: "Stage 1 Doc",
+        type: "file",
+      },
+    ],
+  },
+  {
+    name: "Stage 2",
+    type: "folder",
+    children: [
+      {
+        name: "Stage 2 Doc",
+        type: "file",
+      },
+    ],
+  },
+];
 
 const CollapsableSidebar = ({ open, setOpen }) => {
   const toggleSidebar = () => {
@@ -17,7 +59,7 @@ const CollapsableSidebar = ({ open, setOpen }) => {
     );
   }
   return (
-    <div className="bg-white shadow-gray-600 shadow-sm flex z-30 w-96">
+    <div className="bg-white shadow-gray-600 shadow-sm flex z-30 w-96 py-4">
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center px-4">
           <h2 className="text-lg font-bold">Transaction Contents</h2>
@@ -41,6 +83,11 @@ const CollapsableSidebar = ({ open, setOpen }) => {
           />
           <FunnelIcon className="w-6 h-6 text-gray-400" />
         </div>
+        <div className="mx-2 border-r-2 border-gray-100">
+          {folderStructure.map((item, index) => (
+            <SidebarItem key={index} item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -53,6 +100,56 @@ const TitleStats = ({ title, statData }) => {
     <div className="">
       <h1 className="text-lg font-semibold">{statData}</h1>
       <h2 className="text-sm">{title}</h2>
+    </div>
+  );
+};
+
+const SidebarItem = ({ item }) => {
+  const [showChildrem, setShowChildrem] = useState(false);
+
+  if (item.type === "file") {
+    return <li className="ml-4">{item.name}</li>;
+  } else if (item.type === "folder") {
+    return (
+      <>
+        <StageCard
+          title={item?.name}
+          showChildrem={showChildrem}
+          setShowChildrem={setShowChildrem}
+        />
+        {showChildrem && (
+          <ul className="ml-4">
+            {item.children.map((child, index) => (
+              <SidebarItem key={index} item={child} />
+            ))}
+          </ul>
+        )}
+      </>
+    );
+  } else {
+    return null;
+  }
+};
+
+const StageCard = ({ title, showChildrem, setShowChildrem }) => {
+  const toggleSubFolder = () => {
+    setShowChildrem(!showChildrem);
+  };
+  return (
+    <div className="border-b-2 border-gray-100 py-2 w-full px-2 flex gap-2 items-center justify-between">
+      <div className="flex items-center gap-2">
+        <button onClick={toggleSubFolder}>
+          <ChevronRightIcon className="w-4 h-4" />
+        </button>
+        <FolderIcon className="w-6 h-6" />
+        <h3>{title}</h3>
+      </div>
+      <div className="flex items-center gap-2">
+        <InformationCircleIcon className="w-5 h-5 text-gray-300" />
+        <div className="h-4 w-4 p-0.5 bg-gray-300 rounded-full">
+          <ClipboardDocumentIcon className=" text-white" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -58,7 +58,10 @@ const SidebarRight = () => {
   ];
 
   return (
-    <div className="bg-primary shadow-gray-600 shadow-lg flex z-50">
+    <div
+      className="bg-primary shadow-gray-600 shadow-lg flex z-50"
+      style={{ width: "100px" }}
+    >
       <div className="flex flex-col relative">
         {btnOptions.map((val, index) => {
           return (
