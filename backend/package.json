@@ -1,0 +1,14 @@
+{
+  "name": "assignment-backend",
+  "version": "1.0.0",
+  "description": "This folder contains the backend for the app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
