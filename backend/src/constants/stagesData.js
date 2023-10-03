@@ -76,7 +76,7 @@ const stagesData = [
     ],
   },
   {
-    id: 8,
+    id: 7,
     name: "Stage 7",
     type: "folder",
     children: [

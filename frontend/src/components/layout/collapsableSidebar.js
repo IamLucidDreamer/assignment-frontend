@@ -10,7 +10,9 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import serverV1 from "../../api/server";
+import { updateData } from "../../store/actions/dataActions";
 
 const CollapsableSidebar = ({ open, setOpen }) => {
   const folderData = useSelector((state) => state?.data?.data);
@@ -83,6 +85,7 @@ const SidebarItem = ({ item }) => {
     return (
       <>
         <StageCard
+          id={item?.id}
           title={item?.name}
           showChildrem={showChildrem}
           setShowChildrem={setShowChildrem}
@@ -101,8 +104,13 @@ const SidebarItem = ({ item }) => {
   }
 };
 
-const StageCard = ({ title, showChildrem, setShowChildrem }) => {
+const StageCard = ({ id, title, showChildrem, setShowChildrem }) => {
+  const disptach = useDispatch();
   const toggleSubFolder = () => {
+    serverV1
+      .get(`/data?id=${id}`)
+      .then((res) => disptach(updateData(res?.data?.data, id)))
+      .catch((err) => console.log(err));
     setShowChildrem(!showChildrem);
   };
   return (
