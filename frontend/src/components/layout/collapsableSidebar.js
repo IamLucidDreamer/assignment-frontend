@@ -10,41 +10,11 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
-
-const folderStructure = [
-  {
-    name: "Stage 1",
-    type: "folder",
-    children: [
-      {
-        name: "Stage 1.1",
-        type: "folder",
-        children: [
-          {
-            name: "Stage 1.1 Doc",
-            type: "file",
-          },
-        ],
-      },
-      {
-        name: "Stage 1 Doc",
-        type: "file",
-      },
-    ],
-  },
-  {
-    name: "Stage 2",
-    type: "folder",
-    children: [
-      {
-        name: "Stage 2 Doc",
-        type: "file",
-      },
-    ],
-  },
-];
+import { useSelector } from "react-redux";
 
 const CollapsableSidebar = ({ open, setOpen }) => {
+  const folderData = useSelector((state) => state?.data?.data);
+
   const toggleSidebar = () => {
     setOpen(!open);
   };
@@ -84,7 +54,7 @@ const CollapsableSidebar = ({ open, setOpen }) => {
           <FunnelIcon className="w-6 h-6 text-gray-400" />
         </div>
         <div className="mx-2 border-r-2 border-gray-100">
-          {folderStructure.map((item, index) => (
+          {folderData?.map((item, index) => (
             <SidebarItem key={index} item={item} />
           ))}
         </div>
@@ -108,7 +78,7 @@ const SidebarItem = ({ item }) => {
   const [showChildrem, setShowChildrem] = useState(false);
 
   if (item.type === "file") {
-    return <li className="ml-4">{item.name}</li>;
+    return <li className="ml-4 py-1.5">{item.name}</li>;
   } else if (item.type === "folder") {
     return (
       <>
