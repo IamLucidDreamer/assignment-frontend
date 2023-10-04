@@ -5,17 +5,18 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 1.1,
         name: "Stage 1.1",
         type: "folder",
         children: [
           {
-            id: 1.1,
-            name: "Stage 1.1 Doc",
+            id: 1.11,
+            name: "Stage 1.11 Doc",
             type: "file",
             children: [
               {
-                id: 1.11,
-                name: "Stage 1.1 Doc",
+                id: 1.111,
+                name: "Stage 1.111 Doc",
                 type: "file",
               },
             ],
