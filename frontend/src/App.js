@@ -18,7 +18,6 @@ function App() {
     serverV1
       .get("/data")
       .then((res) => {
-        console.log(res, "Hello");
         disptach(updateData(res?.data?.data));
       })
       .catch((err) => {

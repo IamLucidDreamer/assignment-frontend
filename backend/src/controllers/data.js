@@ -8,13 +8,17 @@ const getData = async (req, res) => {
   const id = req.query.id;
   let data = [];
   if (id) {
-    data = stagesData
-      .map((stage) => findChildById(stage, id))
-      .filter((val) => val !== null)
-      .map((stage) => ({
-        ...stage,
-        children: stage.children ? [] : undefined,
-      }));
+    for (const value of stagesData) {
+      const result = findChildById(value, id);
+      if (result) {
+        data.push(...result);
+        break;
+      }
+    }
+    data = data.map((stage) => ({
+      ...stage,
+      children: stage.children ? [] : undefined,
+    }));
   } else {
     data = stagesData.map((stage) => ({
       ...stage,

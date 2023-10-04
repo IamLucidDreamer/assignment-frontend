@@ -1,6 +1,6 @@
 function findChildById(node, id) {
   if (node.id == id) {
-    return node;
+    return node.children;
   }
 
   if (node.children) {
@@ -15,21 +15,43 @@ function findChildById(node, id) {
   return null;
 }
 
-function findDataByName(data, nameToFind, parent = null) {
+function findDataByName(
+  data,
+  nameToFind,
+  parent = null,
+  includeChildren = true
+) {
+  const regex = new RegExp(nameToFind, "i"); // Case-insensitive regex
+
+  const matchingItems = [];
+
   for (const item of data) {
-    if (item.name === nameToFind) {
-      return parent ? { ...item, parent } : item;
+    if (item.name.match(regex)) {
+      const matchedItem = includeChildren ? item : { ...item, children: [] };
+      matchingItems.push(parent ? { ...matchedItem, parent } : matchedItem);
     }
 
     if (item.children && item.children.length > 0) {
-      const result = findDataByName(item.children, nameToFind, item);
-      if (result) {
-        return result;
-      }
+      const results = findDataByName(
+        item.children,
+        nameToFind,
+        item,
+        includeChildren
+      );
+      matchingItems.push(...results);
     }
   }
 
-  return null;
+  return matchingItems.length > 0 ? matchingItems : [];
+}
+
+function getAncestors(item) {
+  const ancestors = [];
+  while (item) {
+    ancestors.unshift(item);
+    item = item.parent;
+  }
+  return ancestors;
 }
 
 module.exports = { findChildById, findDataByName };
