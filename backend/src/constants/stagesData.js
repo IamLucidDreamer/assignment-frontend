@@ -9,12 +9,21 @@ const stagesData = [
         type: "folder",
         children: [
           {
+            id: 1.1,
             name: "Stage 1.1 Doc",
             type: "file",
+            children: [
+              {
+                id: 1.11,
+                name: "Stage 1.1 Doc",
+                type: "file",
+              },
+            ],
           },
         ],
       },
       {
+        id: 1.2,
         name: "Stage 1 Doc",
         type: "file",
       },
@@ -26,6 +35,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 2.1,
         name: "Stage 2 Doc",
         type: "file",
       },
@@ -37,6 +47,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 3.1,
         name: "Stage 2 Doc",
         type: "file",
       },
@@ -48,6 +59,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 4.1,
         name: "Stage 2 Doc",
         type: "file",
       },
@@ -59,6 +71,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 5.1,
         name: "Stage 2 Doc",
         type: "file",
       },
@@ -70,6 +83,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 6.1,
         name: "Stage 2 Doc",
         type: "file",
       },
@@ -79,12 +93,7 @@ const stagesData = [
     id: 7,
     name: "Stage 7",
     type: "folder",
-    children: [
-      {
-        name: "Stage 2 Doc",
-        type: "file",
-      },
-    ],
+    children: [{ id: 7.1, name: "Stage 2 Doc", type: "file" }],
   },
   {
     id: 8,
@@ -92,6 +101,7 @@ const stagesData = [
     type: "folder",
     children: [
       {
+        id: 8.1,
         name: "Stage 2 Doc",
         type: "file",
       },

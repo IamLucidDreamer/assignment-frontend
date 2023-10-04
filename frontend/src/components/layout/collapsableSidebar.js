@@ -106,10 +106,21 @@ const SidebarItem = ({ item }) => {
 
 const StageCard = ({ id, title, showChildrem, setShowChildrem }) => {
   const disptach = useDispatch();
+  const data = useSelector((state) => state?.data?.data);
+  console.log(data);
   const toggleSubFolder = () => {
     serverV1
       .get(`/data?id=${id}`)
-      .then((res) => disptach(updateData(res?.data?.data, id)))
+      .then((res) => {
+        const newData = data.map(
+          (value) => value.filter((val) => val.id == id)[0]
+        );
+        console.log(newData, newData);
+        newData.children = res?.data?.data;
+        console.log(newData);
+        const newUpdatedData = [...data, newData];
+        disptach(updateData([...data, newData]));
+      })
       .catch((err) => console.log(err));
     setShowChildrem(!showChildrem);
   };
