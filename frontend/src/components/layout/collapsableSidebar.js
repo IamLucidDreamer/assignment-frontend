@@ -12,10 +12,14 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import serverV1 from "../../api/server";
-import { updateData } from "../../store/actions/dataActions";
+import {
+  toggleFolder,
+  updateDataChildren,
+} from "../../store/actions/dataActions";
 
 const CollapsableSidebar = ({ open, setOpen }) => {
   const folderData = useSelector((state) => state?.data?.data);
+  console.log(folderData, "hello");
 
   const toggleSidebar = () => {
     setOpen(!open);
@@ -77,20 +81,13 @@ const TitleStats = ({ title, statData }) => {
 };
 
 const SidebarItem = ({ item }) => {
-  const [showChildrem, setShowChildrem] = useState(false);
-
   if (item.type === "file") {
     return <li className="ml-4 py-1.5">{item.name}</li>;
   } else if (item.type === "folder") {
     return (
       <>
-        <StageCard
-          id={item?.id}
-          title={item?.name}
-          showChildrem={showChildrem}
-          setShowChildrem={setShowChildrem}
-        />
-        {showChildrem && (
+        <StageCard id={item?.id} title={item?.name} />
+        {item.open && (
           <ul className="ml-4">
             {item.children.map((child, index) => (
               <SidebarItem key={index} item={child} />
@@ -104,26 +101,19 @@ const SidebarItem = ({ item }) => {
   }
 };
 
-const StageCard = ({ id, title, showChildrem, setShowChildrem }) => {
-  const disptach = useDispatch();
-  const data = useSelector((state) => state?.data?.data);
-  console.log(data);
+const StageCard = ({ id, title }) => {
+  const dispatch = useDispatch();
+
   const toggleSubFolder = () => {
     serverV1
       .get(`/data?id=${id}`)
       .then((res) => {
-        const newData = data.map(
-          (value) => value.filter((val) => val.id == id)[0]
-        );
-        console.log(newData, newData);
-        newData.children = res?.data?.data;
-        console.log(newData);
-        const newUpdatedData = [...data, newData];
-        disptach(updateData([...data, newData]));
+        dispatch(toggleFolder({ id: id }));
+        dispatch(updateDataChildren({ id: id, newChild: res?.data?.data }));
       })
       .catch((err) => console.log(err));
-    setShowChildrem(!showChildrem);
   };
+
   return (
     <div className="border-b-2 border-gray-100 py-2 w-full px-2 flex gap-2 items-center justify-between">
       <div className="flex items-center gap-2">
