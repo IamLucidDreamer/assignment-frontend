@@ -28,7 +28,7 @@ function findDataByName(
   for (const item of data) {
     if (item.name.match(regex)) {
       const matchedItem = includeChildren ? item : { ...item, children: [] };
-      matchingItems.push(parent ? { ...matchedItem, parent } : matchedItem);
+      matchingItems.push(parent ? { ...parent } : matchedItem);
     }
 
     if (item.children && item.children.length > 0) {
@@ -45,4 +45,30 @@ function findDataByName(
   return matchingItems.length > 0 ? matchingItems : [];
 }
 
-module.exports = { findChildById, findDataByName };
+function removeDuplicates(data, nameToFind) {
+  const result = findDataByName(data, nameToFind);
+  const newResult = removeDuplicatesFromNestedArray(result);
+  return newResult;
+}
+
+function removeDuplicatesFromNestedArray(arr) {
+  const lookup = {};
+
+  function removeDuplicates(obj) {
+    if (!lookup[obj.id]) {
+      lookup[obj.id] = true;
+      if (Array.isArray(obj.children)) {
+        obj.children = obj.children.map(removeDuplicates);
+      }
+      return obj;
+    }
+    return null;
+  }
+
+  return arr.filter((item) => {
+    const updatedItem = removeDuplicates(item);
+    return updatedItem !== null;
+  });
+}
+
+module.exports = { findChildById, findDataByName, removeDuplicates };

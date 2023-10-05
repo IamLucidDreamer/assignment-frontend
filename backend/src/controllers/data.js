@@ -2,7 +2,7 @@ const { loggerUtil: logger } = require("../utils/logger");
 const { statusCode: SC } = require("../utils/statusCode");
 
 const stagesData = require("../constants/stagesData");
-const { findChildById, findDataByName } = require("../helpers/dataProcess");
+const { findChildById, removeDuplicates } = require("../helpers/dataProcess");
 
 const getData = async (req, res) => {
   const id = req.query.id;
@@ -40,7 +40,7 @@ const getSearchData = async (req, res) => {
       status: SC.WRONG_ENTITY,
     });
   } else {
-    data = findDataByName(stagesData, search);
+    data = removeDuplicates(stagesData, search);
     res.status(SC.OK).json({
       message: "Data Fetched Successfully",
       data: data,
