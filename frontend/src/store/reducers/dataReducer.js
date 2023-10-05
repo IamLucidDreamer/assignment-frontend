@@ -1,5 +1,6 @@
 import { updateDataProcessor, updateOpenStatus } from "../../utils/dataHanlder";
 import {
+  SEARCH_DATA,
   TOGGLE_FOLDER,
   UPDATE_DATA_TABLE,
   UPDATE_DATA_TABLE_CHILDREN,
@@ -7,6 +8,7 @@ import {
 
 const initialState = {
   data: [],
+  searchData: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -30,6 +32,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         data: [...updateOpenStatus(state?.data, payload?.id)],
+      };
+    case SEARCH_DATA:
+      return {
+        ...state,
+        searchData: payload,
       };
     default:
       return state;

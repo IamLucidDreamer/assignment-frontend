@@ -21,7 +21,7 @@ function findDataByName(
   parent = null,
   includeChildren = true
 ) {
-  const regex = new RegExp(nameToFind, "i"); // Case-insensitive regex
+  const regex = new RegExp(nameToFind, "i");
 
   const matchingItems = [];
 
@@ -43,15 +43,6 @@ function findDataByName(
   }
 
   return matchingItems.length > 0 ? matchingItems : [];
-}
-
-function getAncestors(item) {
-  const ancestors = [];
-  while (item) {
-    ancestors.unshift(item);
-    item = item.parent;
-  }
-  return ancestors;
 }
 
 module.exports = { findChildById, findDataByName };

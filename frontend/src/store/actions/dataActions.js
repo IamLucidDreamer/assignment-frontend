@@ -1,4 +1,5 @@
 import {
+  SEARCH_DATA,
   TOGGLE_FOLDER,
   UPDATE_DATA_TABLE,
   UPDATE_DATA_TABLE_CHILDREN,
@@ -16,5 +17,10 @@ export const updateDataChildren = (payload) => ({
 
 export const toggleFolder = (payload) => ({
   type: TOGGLE_FOLDER,
+  payload,
+});
+
+export const updateSearchData = (payload) => ({
+  type: SEARCH_DATA,
   payload,
 });

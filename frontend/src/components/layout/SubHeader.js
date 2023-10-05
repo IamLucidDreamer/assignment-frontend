@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AdjustmentsHorizontalIcon,
   ArrowDownRightIcon,
@@ -7,8 +7,25 @@ import {
   MagnifyingGlassIcon,
   MicrophoneIcon,
 } from "@heroicons/react/24/outline";
+import serverV1 from "../../api/server";
+import { useDispatch } from "react-redux";
+import { updateSearchData } from "../../store/actions/dataActions";
 
 const SubHeader = () => {
+  const dispatch = useDispatch();
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    serverV1
+      .get(`/data/search?search=${searchText}`)
+      .then((res) => {
+        dispatch(updateSearchData(res?.data?.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [searchText]);
+
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="bg-white rounded w-full p-2 flex gap-4 items-center justify-between">
@@ -21,7 +38,12 @@ const SubHeader = () => {
         </div>
         <div className="w-3/4 flex gap-2 items-center">
           <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
-          <input placeholder="Search here" className="outline-none w-full" />
+          <input
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            placeholder="Search here"
+            className="outline-none w-full"
+          />
           <MicrophoneIcon className="w-5 h-5 text-gray-400" />
         </div>
       </div>
